@@ -8,8 +8,8 @@
 clearvars -except data
        
     % What type of data?
-    opt.site='SWiso2';% Short name or acronym for the site of interest
-    opt.L4file=['..\L4_Processing\Processed\' opt.site '_L4.mat'];% The directory of the L4 file
+    opt.site='NC4';% Short name or acronym for the site of interest
+    opt.L4file='E:\FluxData\L4_Processing\Processed\NC4_L4.mat';% The directory of the L4 file
     
     % how?
     opt.models=[0 0 1]; % Select any combination of 3 models [ Hsieh  Kljun  K&M ];
@@ -48,9 +48,9 @@ clearvars -except data
     opt.Timelow=0;% Time in hours, default 0
     opt.Timehigh=24;% Time in hours, default 24
     
-    % Add fluxes for footprint-weighed flux maps
+    %% Add fluxes for footprint-weighed flux maps
     disp('loading data. Please wait a few seconds...')
-    load(opt.L4file,'data','BADM')
+    load(opt.L4file)
     Fuv=(data.ustar).^2;% Momentum flux ( m-2 s-2)
     % Add fluxes here. If the default flux does not exist,
     % it can be left as is or replaced by other flux here:
@@ -64,8 +64,8 @@ clearvars -except data
     FS7=nan(size(Fuv));opt.FS7='None'; % Add other flux here
     FS8=nan(size(Fuv));opt.FS8='None'; % Add other flux here
     
-    % Saving options
-    opt.SaveDir=(['..\Footprint_Output\' opt.site '\continuous\']);
+    %% Saving options
+    opt.SaveDir=(['E:\Footprint_Output\' opt.site '\continuous\']);
     opt.Sufix='test';% A sufix to add to the name of the file
         
 disp('Options recorded. Run Footprint_Run_Continuous.m')  

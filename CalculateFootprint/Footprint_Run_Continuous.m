@@ -1,8 +1,10 @@
 %% Main Footprint_Run
-% By Camilo Rey. Jul 2020.
 
+% By Camilo Rey-Sanchez. Last modified Jun 2022.
+% Before running this file the file FP_opts_continuous.m must be run
+% No adjustments should be made to this file
 
-%% Adjustments
+%% Labels
 
 if opt.DN==0;DT='night';
 elseif opt.DN==1; DT='day';end  
@@ -18,13 +20,10 @@ lega=Fall;% String of the customized contours to label files
 %% Load data
 
 addpath('Proc_functions/')
-addpath('Create_Site_Input/')
-
     
-load(opt.L4file,'data','BADM')
+%load(opt.L4file,'data','BADM')
 
 data.WD=data.WD-opt.WDoffset; data.WD(data.WD<0)=data.WD(data.WD<0)+360;
-
 
 % Load map
 if opt.HaveMap==1
@@ -41,19 +40,10 @@ end_date=datenum(opt.end2,'yyyy-mm-dd HH:MM');
 
 % wind direction index (adjust if necessary)
 wix=data.WD>opt.WDlow & data.WD<opt.WDhigh;
-
-% Soil temp index if desired
+    
+% Time index if desired
 timeT=data.time>opt.Timelow & data.time<opt.Timehigh;  
 
-% Soil temp index if desired
-%temp=data.ST>opt.STlow & data.ST<opt.SThigh;  
-
-% % Stability index if desired
-% data.zL=data.z./data.L;
-% zL=data.zL>opt.zLlow & data.zL<opt.zLhigh;  
-
-
-% FIX TEMP !!!!!!!!!!!!!!!!!!!!!!!
 
 % Index all time within this period
 if opt.BOTH==1
@@ -69,7 +59,7 @@ if exist('ix2','var') == 0; ix2=ix;end
    
 %% Apply index to input variables:
 
-UST=0.2;
+    UST=0.2;
 
     Mdate=data.Mdate(ix);
     plottime=datetime(datevec(Mdate));
@@ -79,54 +69,23 @@ UST=0.2;
     try h=data.PBL_MS_gf(ix); catch h=ones(size(daynight))*750;end
     ustar=data.ustar(ix);
     ubar=data.ubar(ix);
-    mbar=data.mbar(ix);
     vv=data.vv(ix);
     Lo=data.L(ix);Lo(ustar<UST)=nan;
     windir=data.WD(ix);
     DOY=data.DOY(ix);  
     year=data.year(ix);
     TA=data.TA(ix);
-    ST=data.ST(ix);
-
-    %Optional
-    LE=data.LE(ix);LE(ustar<UST)=nan;
-    FCH4=data.wm(ix);FCH4(ustar<UST)=nan;
-    FCO2=data.wc(ix);FCO2(ustar<UST)=nan;
-    %GPP=data.GPP(ix);GPP(ustar<UST)=nan;
-    %if strcmp(site,'TZ'); GPP=data.GPP(ix);else;GPP=data.gpp_ANNnight(ix);end;GPP(ustar<UST)=nan;
-    FH2O=data.wq(ix);FH2O(ustar<UST)=nan;
-    Fuv=(data.ustar(ix)).^2;Fuv(ustar<UST)=nan;
-    SH=data.H(ix);SH(ustar<UST)=nan;
-        
-    try
-    GEB=(data.H(ix)+data.LE(ix))-data.RNET(ix); % Energy Balance
-    LUE=GPP./data.PPFD(ix);% Light use efficiency
-    WUE=GPP./data.wq(ix); % Water use efficiency
-    catch
-    GEB=nan(size(LE));
-    LUE=nan(size(LE));
-    WUE=nan(size(LE));
-    end
     
-    if strcmp(opt.site,'SWiso') 
+    Fs0=FS0(ix);
+    Fs1=FS1(ix);
+    Fs2=FS2(ix);
+    Fs3=FS3(ix);
+    Fs4=FS4(ix);
+    Fs5=FS5(ix);
+    Fs6=FS6(ix);
+    Fs7=FS7(ix);
+    Fs8=FS8(ix);  
     
-    GEB=data.FC13(ix); 
-    LUE=data.FC13_dsk(ix);
-    WUE=data.FCO2iso(ix);  
-    Fuv=data.FCO2iso_dsk(ix);
-    ST=data.FC13_dsk(ix);
-    end
-    
-    if strcmp(opt.site,'SWiso2') 
-    
-    GEB=data.ISO13C_RAC(ix); 
-    LUE=data.ISO13C_RAC_dsk(ix);
-    WUE=data.ISO13C_RAC_dsk2(ix);  
-    Fuv=data.ISO18O_RAC_dsk(ix);
-    ST=data.ISO18O_RAC_dsk(ix);
-    end
-    
-        
     Canopy_height=data.z_veg(ix);
     Tower_height=data.z(ix);
     
@@ -134,8 +93,7 @@ UST=0.2;
     ustar_day=data.ustar(ix2);
     Lo_day=data.L(ix2);
     ubar_day=data.ubar(ix2);
-    Tower_height_day=data.z(ix2);
-    
+    Tower_height_day=data.z(ix2);    
     
 
 %% load map or Define Grid
@@ -191,7 +149,7 @@ end
 
     [COUNT,COMP,PATCHSUM_H,PATCHSUM_K,PATCHSUM_KM]=...
     FP_process_Aggregate(ustar,vv,Lo,windir,zo,z,d,ubar,FX,FY,PatchMap,Cmap,PlotVec,opt.site,DOY,year,h,startH,endH,...
-    opt.FPcontour,opt.models,opt.mscale,Tdist,Twindir,FCH4,FCO2,FH2O,Fuv,SH,ST,GEB,LUE,WUE);
+    opt.FPcontour,opt.models,opt.mscale,Tdist,Twindir,Fs0,Fs1,Fs2,Fs3,Fs4,Fs5,Fs6,Fs7,Fs8);
 
 %% Variable Description:
 

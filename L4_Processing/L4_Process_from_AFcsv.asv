@@ -10,13 +10,18 @@
 
 clear all
 
-SaveDir='Q:\My Drive\NC-State\Ameriflux_data\FW_maps\NC4\L4_Processed\';
+SaveDir='Q:\My Drive\NC-State\Ameriflux_data\FW_maps\OWC\L4_Processed\';
 
-%% Enter options for the site %%%%%%%
+% addpath(genpath('Q:\My Drive\FluxProcess\eddycovariancegeneral'));
+% addpath(genpath('Q:\My Drive\UC-Berkeley\Footprint_share\CalculateFootprint\Proc_functions'))
+% addpath(genpath('Q:\My Drive\DATA\Subroutines'));
 
-    site='NC4';
-    BADM.filename='AMF_US-NC4_BASE_HH_5-5.csv';
-    BADM.filepath='Q:\My Drive\NC-State\Methane_Alligator\data\';
+%% Enter options for the site
+
+    site='OWC';
+
+    BADM.filename='AMF_US-OWC_BASE_HH_2-5.csv';
+    BADM.filepath='Q:\My Drive\NC-State\Ameriflux_data\FW_maps\OWC\data\';
     BADM.window=0.5;% Time BADM.window of the data in hours (0.5 for half-hourly)    
     BADM.lat_site = 35.787717;
     BADM.lon_site = -75.903952;
@@ -25,21 +30,17 @@ SaveDir='Q:\My Drive\NC-State\Ameriflux_data\FW_maps\NC4\L4_Processed\';
     BADM.Tower_height=35;% m
     BADM.Canopy_height=17.5;% m  
 
-%% Stop entering site options %%%%%%%%%
-
     % Read data
     disp('Reading Ameriflux csv standard. Please wait a few seconds')
     [AF]=Read_AF_StandFormat(BADM.filename,BADM.filepath);      
     % Get zenith for daytime vector)  
-    disp('Calculating Zenith angles. This may take a couple of minutes if dataset is long')
+    disp('Calculating Zenith angles. This may take a couple of minutes')
     [ze]=CalculateZenith(BADM.lon_site,BADM.lat_site,BADM.altitude,AF.Mdate,BADM.UTC_offset);        
     data.ze=ze;
     data.time=hour(AF.dateplot)+(minute(AF.dateplot)/60);           
     data.Mdate=AF.Mdate;    
     
-%% Update Labels according to PI inputs (e.g. from 1_1_1 to 1_1_2)
-% Non-existent variables can be populated with nan { e.g. data.mbar= nan(size(AF.Mdate)) }
-
+    % Update Labels if needed (e.g. from 1_1_1 to 1_1_2)
     data.LE=AF.LE_1_1_1;
     data.H=AF.H_1_1_1;
     data.TA=AF.TA_1_1_1;
@@ -106,7 +107,7 @@ data.zo3=ones(length(data.ubar),1)*zo3;  % m - roughness length on Mauer et al (
 
     if sum(~isnan(data.ubar))>5
     WindRose(data.WD,data.ubar,'anglenorth',0,'angleeast',90,'labels',{'N (0°)','S (180°)','E (90°)','W (270°)'},'freqlabelangle',45,...
-        'titlestring', {'Wind rose';' '});
+        'titlestring', {'Wind rose current subset (without offset)';' '});
     else
         disp('Too little data to plot wind rose')
     end

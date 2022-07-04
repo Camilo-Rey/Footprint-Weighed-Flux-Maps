@@ -42,7 +42,7 @@ end_date=datenum(opt.end2,'yyyy-mm-dd HH:MM');
 wix=data.WD>opt.WDlow & data.WD<opt.WDhigh;
     
 % Time index if desired
-timeT=data.time>opt.Timelow & data.time<opt.Timehigh;  
+timeT=data.time>=opt.Timelow & data.time<=opt.Timehigh;  
 
 
 % Index all time within this period

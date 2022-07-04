@@ -100,8 +100,8 @@ ncalc=0;
 
 %% Loop for every half hour (or any other time stamp)
 
-%Lo(abs(Lo)<0.2)=nan;% avoiding highly stable conditions
-
+Lo((Lo)<0.02 & Lo>0)=nan;% avoiding highly stable conditions
+Lo(Lo
 for i=1:long 
 if ~isnan(ustar(i)*Lo(i)*sv(i)*zo(i)*z(i)*d(i)*windir(i)*h(i)*ubar(i))
     ncalc=ncalc+1;

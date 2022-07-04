@@ -25,11 +25,11 @@ clearvars -except data
     opt.DN=1;% daytime= 1. Nighttime=0; (only works if opt.BOTH==0)
     opt.PlotVec=0; % Plot each half hourly?    
     % Defining an index to run the footprint in day of year        
-    opt.start='2017-01-274 00:00'; % format YYYY-01-DOY HH:MM
-    opt.end2='2017-01-288 24:00'; % format YYYY-01-DOY HH:MM    
+    opt.start='2018-01-138 00:00'; % format YYYY-01-DOY HH:MM
+    opt.end2='2018-01-144 24:00'; % format YYYY-01-DOY HH:MM    
  
     opt.FPcontour=[50,80];% Choose Footprint Percentages. no more than 60-70 % for nighttime
-    opt.f2h=150; % Fetch to height ratio defines the initial size of grid. varies from 100-150
+    opt.f2h=100; % Fetch to height ratio defines the initial size of grid. varies from 100-150
     opt.pxS=200; % Pixels per side of the square. default=200
     
     % Optional: Wind direction adjustment (if needed)

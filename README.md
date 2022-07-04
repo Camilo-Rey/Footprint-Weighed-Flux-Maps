@@ -14,14 +14,14 @@ Data input: Standard Ameriflux csv file or Standard Berkeley Biomet Lab mat file
 •	Open the file L4_Process_from_AFcsv.m in the L4_processing folder to create an L4 file. For footprint processing there are multiple variables that are calculated in what I called “L4 files” These L4 files are Matlab structures with the Ameriflux csv data plus additional variables needed to run footprint including Aerodynamic canopy height and PBL height (PBL is optional).
 
 •	Enter options
-* o	Modify the Save Directory (from previous step)
-* o	Select the site acronym for the site (3 letter code from Ameriflux recommended) 
-* o	Update the filename and file path for the csv file
-* o	Adjust parameters in BADM. Canopy height is an initial estimate. Canopy height will be calculated using the aerodynamic canopy height approach of Pennypacker and Baldocchi later on
-* o	Adjust the variable names in data if needed. Some variable may have slightly different names (for example AF_RH_1_1_1 vs AF_RH_1_1_2). Non-existent variables can be populated with nan { e.g. data.mbar= nan(size(AF.Mdate)) }
-* o	If you have water level above the surface and have data available update this in the water level section, otherwise disregard this step
-* o	Run Aerodynamic canopy height. You can adjust the days to average if your dataset is shorter. 30 days is recommended for datasets longer than 1 year.
-* o	Add PBL data if available. If not an estimate of 750 m will be used for all the footprints. Non-published tests inidicate the sensitivity of footprint models to PBL height is very low
+* Modify the Save Directory (from previous step)
+* Select the site acronym for the site (3 letter code from Ameriflux recommended) 
+* Update the filename and file path for the csv file
+* Adjust parameters in BADM. Canopy height is an initial estimate. Canopy height will be calculated using the aerodynamic canopy height approach of Pennypacker and Baldocchi later on
+* Adjust the variable names in data if needed. Some variable may have slightly different names (for example AF_RH_1_1_1 vs AF_RH_1_1_2). Non-existent variables can be populated with nan { e.g. data.mbar= nan(size(AF.Mdate)) }
+* If you have water level above the surface and have data available update this in the water level section, otherwise disregard this step
+* Run Aerodynamic canopy height. You can adjust the days to average if your dataset is shorter. 30 days is recommended for datasets longer than 1 year.
+* Add PBL data if available. If not an estimate of 750 m will be used for all the footprints. Non-published tests inidicate the sensitivity of footprint models to PBL height is very low
 
 ## Calculating Footprints
 •	Go to the CalculateFootprint folder, Open FP_opts_continuous.m, select the site, and update the source of the L4 file from the previous step.
